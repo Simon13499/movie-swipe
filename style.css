@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+.overview {
+    display: none;
+}
+
+
+.overview-on {
+    display: block;
+}
+
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

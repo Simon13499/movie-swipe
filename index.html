@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Movie Swipe</title>
+
+  <link rel="stylesheet" href="./output.css">
+</head>
+
+<body class="min-h-screen bg-[#080808] text-white overflow-x-hidden">
+
+  <main class="min-h-screen flex items-center justify-center p-6">
+
+    <section class="w-full max-w-sm">
+
+      <div class="mb-8 text-center">
+
+        <p class="text-sm uppercase tracking-[0.3em] text-[#E50914] font-semibold">
+          Movie Swipe
+        </p>
+
+        <h1 class="mt-1 text-[60px] font-bold">
+          Vyber si film
+        </h1>
+
+        <div class="w-10 rounded-full mx-auto mt-4"></div>
+
+      </div>
+
+      <div class="movies"></div>
+
+    </section>
+
+  </main>
+
+
+  <section class="overview py-24 bg-[#0d0d0d] border-t border-[#1f1f1f]">
+
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="mb-12 text-center">
+
+        <p class="text-sm uppercase tracking-[0.3em] text-[#E50914] font-semibold">
+          Vaše volby
+        </p>
+
+        <h2 class="mt-2 text-3xl md:text-4xl font-black">
+          Přehled swipů
+        </h2>
+
+
+      </div>
+
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- LIKED -->
+        <div class="rounded-[28px] bg-[#121212] border border-[#242424] p-6 md:p-7">
+
+          <div class="flex items-center justify-between pb-5 mb-5 border-b border-[#242424]">
+
+            <div>
+
+              <h3 class="text-2xl font-bold">
+                Liked
+              </h3>
+            </div>
+
+            <div class="w-10 h-10 rounded-full bg-[black]
+                        flex items-center justify-center text-[#E50914] font-bold">
+              ✓
+            </div>
+
+          </div>
+
+          <div class="overview-liked space-y-3"></div>
+
+        </div>
+
+
+        <!-- DISLIKED -->
+        <div class="rounded-[28px] bg-[#121212] border border-[#242424] p-6 md:p-7">
+
+          <div class="flex items-center justify-between pb-5 mb-5 border-b border-[#242424]">
+
+            <div>
+              <h3 class="text-2xl font-bold">
+                Disliked
+              </h3>
+            </div>
+
+            <div class="w-10 h-10 rounded-full bg-[black]
+                        flex items-center justify-center text-[#E50914] font-bold">
+              ✕
+            </div>
+
+          </div>
+
+          <div class="overview-disliked space-y-3"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <script src="./script.js"></script>
+</body>
+</html>
