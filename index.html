@@ -16,55 +16,100 @@
     rel="stylesheet"
   >
 
-  <!-- Compiled Tailwind + custom CSS -->
+  <!-- Tailwind + custom CSS -->
   <link rel="stylesheet" href="./output.css">
+
+  <style>
+    /* Mobile layout only */
+    @media (max-width: 639px) {
+
+      /* Swipe poster: responsive to screen height */
+      .movies .image-wrapper {
+        width: min(100%, 29dvh) !important;
+      }
+
+      /* Recommendation poster */
+      .movies > div > div:has(> img) {
+        width: min(100%, 29dvh) !important;
+      }
+
+      /* Smaller poster to leave room for buttons */
+      body:has(#recommendation-actions:not(.hidden))
+      .movies > div > div:has(> img) {
+        width: min(100%, 22dvh) !important;
+      }
+
+      /* Landscape / unusually short screens */
+      @media (max-height: 580px) {
+        .movies .image-wrapper,
+        .movies > div > div:has(> img) {
+          width: min(100%, 22dvh) !important;
+        }
+
+        body:has(#recommendation-actions:not(.hidden))
+        .movies > div > div:has(> img) {
+          width: min(100%, 17dvh) !important;
+        }
+      }
+    }
+  </style>
 </head>
 
 <body class="min-h-screen overflow-x-clip bg-[#050505] text-white">
 
-  <main class="relative isolate flex min-h-dvh items-center justify-center overflow-x-clip px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+  <!-- MAIN -->
+  <main
+    class="relative isolate flex h-dvh flex-col items-center justify-center overflow-hidden px-4 py-3 sm:h-auto sm:min-h-dvh sm:px-6 sm:py-14 lg:py-16"
+  >
 
-    <!-- Subtle background glow -->
+    <!-- Background glow -->
     <div
       aria-hidden="true"
       class="pointer-events-none absolute top-[-180px] left-1/2 -z-10 h-[450px] w-[min(800px,100%)] -translate-x-1/2 rounded-full bg-[#E50914]/[0.055] blur-[110px]"
     ></div>
 
-    <section class="relative w-full max-w-[680px]">
+    <section class="relative flex w-full max-w-[680px] flex-col justify-center">
 
       <!-- INTRO -->
-      <div class="mb-8 text-center sm:mb-10">
+      <div class="mb-4 text-center sm:mb-10">
 
-        <p class="intro-eyebrow text-[10px] font-semibold uppercase leading-relaxed tracking-[0.13em] text-[#E50914] sm:text-xs sm:tracking-[0.2em] md:text-sm">
+        <p
+          class="intro-eyebrow mx-auto max-w-[600px] text-[9px] font-semibold uppercase leading-[1.5] tracking-[0.1em] text-[#E50914] sm:text-xs sm:leading-relaxed sm:tracking-[0.2em] md:text-sm"
+        >
           Po swajpnutí 8 filmů ti doporučím, na co se máš podívat
         </p>
 
-        <h1 class="intro-heading mx-auto mt-4 max-w-[650px] text-[29px] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[39px] lg:text-[48px]">
+        <h1
+          class="intro-heading mx-auto mt-2 max-w-[650px] text-[23px] font-bold leading-[1.08] tracking-[-0.035em] sm:mt-4 sm:text-[39px] lg:text-[48px]"
+        >
           Swajp doleva je dislike, swajp doprava je like
         </h1>
 
       </div>
 
-      <!-- MOVIE -->
-      <div class="movies"></div>
+      <!-- MOVIE CONTAINER -->
+      <div class="movies min-h-0"></div>
 
-      <!-- RECOMMENDATION BUTTONS -->
-      <div id="recommendation-actions" class="mt-8 hidden space-y-3">
+      <!-- RECOMMENDATION ACTIONS -->
+      <div
+        id="recommendation-actions"
+        class="mt-4 hidden space-y-2 sm:mt-8 sm:space-y-3"
+      >
 
         <button
           id="next-recommendation"
           type="button"
-          class="w-full cursor-pointer rounded-2xl bg-[#E50914] px-5 py-4 text-sm font-bold text-white transition-colors duration-200 hover:bg-[#b80710] sm:text-base"
+          class="w-full cursor-pointer rounded-xl bg-[#E50914] px-4 py-3 text-xs font-bold text-white transition-colors duration-200 hover:bg-[#b80710] sm:rounded-2xl sm:px-5 sm:py-4 sm:text-base"
         >
           Další doporučený film →
         </button>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-2 sm:gap-3">
 
           <button
             id="restart-swipe"
             type="button"
-            class="cursor-pointer rounded-2xl border border-[#292929] bg-[#141414] px-3 py-4 text-xs font-semibold transition-colors duration-200 hover:bg-[#222222] sm:text-sm"
+            class="cursor-pointer rounded-xl border border-[#292929] bg-[#141414] px-2 py-3 text-[11px] font-semibold transition-colors duration-200 hover:bg-[#222222] sm:rounded-2xl sm:px-3 sm:py-4 sm:text-sm"
           >
             ↻ Začít znovu
           </button>
@@ -72,7 +117,7 @@
           <button
             id="show-overview"
             type="button"
-            class="cursor-pointer rounded-2xl border border-[#292929] bg-[#141414] px-3 py-4 text-xs font-semibold transition-colors duration-200 hover:bg-[#222222] sm:text-sm"
+            class="cursor-pointer rounded-xl border border-[#292929] bg-[#141414] px-2 py-3 text-[11px] font-semibold transition-colors duration-200 hover:bg-[#222222] sm:rounded-2xl sm:px-3 sm:py-4 sm:text-sm"
           >
             Přehled swipů ↓
           </button>
@@ -88,14 +133,17 @@
   <!-- SWIPE OVERVIEW -->
   <section
     id="swipe-overview"
-    class="overview hidden border-t border-[#1c1c1c] bg-[#090909] py-16 md:py-24"
+    class="overview hidden border-t border-[#1c1c1c] bg-[#090909] py-12 sm:py-16 md:py-24"
   >
 
     <div class="mx-auto max-w-5xl px-4 sm:px-6">
 
-      <div class="mb-10 text-center md:mb-12">
+      <!-- OVERVIEW HEADING -->
+      <div class="mb-8 text-center sm:mb-10 md:mb-12">
 
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#E50914] sm:text-sm">
+        <p
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-[#E50914] sm:text-sm"
+        >
           Vaše volby
         </p>
 
@@ -108,7 +156,9 @@
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
 
         <!-- LIKED -->
-        <div class="rounded-[24px] border border-[#242424] bg-[#111111] p-5 sm:p-6 md:rounded-[28px] md:p-7">
+        <div
+          class="rounded-[24px] border border-[#242424] bg-[#111111] p-5 sm:p-6 md:rounded-[28px] md:p-7"
+        >
 
           <div class="mb-5 flex items-center justify-between border-b border-[#242424] pb-5">
 
@@ -116,7 +166,9 @@
               Liked
             </h3>
 
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-black font-bold text-[#E50914]">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-black font-bold text-[#E50914]"
+            >
               ✓
             </div>
 
@@ -127,7 +179,9 @@
         </div>
 
         <!-- DISLIKED -->
-        <div class="rounded-[24px] border border-[#242424] bg-[#111111] p-5 sm:p-6 md:rounded-[28px] md:p-7">
+        <div
+          class="rounded-[24px] border border-[#242424] bg-[#111111] p-5 sm:p-6 md:rounded-[28px] md:p-7"
+        >
 
           <div class="mb-5 flex items-center justify-between border-b border-[#242424] pb-5">
 
@@ -135,7 +189,9 @@
               Disliked
             </h3>
 
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-black font-bold text-[#E50914]">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-black font-bold text-[#E50914]"
+            >
               ✕
             </div>
 
@@ -152,5 +208,6 @@
   </section>
 
   <script src="./script.js"></script>
+
 </body>
 </html>
