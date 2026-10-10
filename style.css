@@ -20,12 +20,13 @@ h3 {
    HORIZONTAL OVERFLOW
 ========================= */
 
-html {
-  overflow-x: clip;
-}
 
+html,
 body {
-  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 /* =========================
