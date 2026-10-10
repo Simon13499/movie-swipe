@@ -1,10 +1,12 @@
+
+// =========================
+// DATA A ELEMENTY
+// =========================
+
 const likedMovies = [];
 const dislikedMovies = [];
 const swipeMovies = [];
 const movies = [];
-
-
-
 
 const overviewButton = document.querySelector("#show-overview");
 const restartButton = document.querySelector("#restart-swipe");
@@ -12,11 +14,10 @@ const overview = document.querySelector(".overview");
 const movieContainer = document.querySelector(".movies");
 const overviewLiked = document.querySelector(".overview-liked");
 const overviewDisliked = document.querySelector(".overview-disliked");
+const nextButton = document.querySelector("#next-recommendation");
 
 let currentMovieIndex = 0;
 let indexRecommendation = 0;
-
-const nextButton = document.querySelector("#next-recommendation");
 
 let preferences = {
   genres: {},
@@ -45,6 +46,7 @@ async function fetchMovies() {
     swipeMovies.push(...selectedMovies);
 
     renderMovies();
+
   } catch (error) {
     console.error("Error fetching movies:", error);
     movieContainer.textContent = "Filmy se nepodařilo načíst.";
@@ -96,12 +98,11 @@ const calculateScore = movie => {
 // =========================
 
 const getRecommendation = () => {
-  
- const filteredMovies = movies.filter(movie => {
+  const filteredMovies = movies.filter(movie => {
     return !swipeMovies.slice(0, currentMovieIndex).some(swipedMovie => {
-        return swipedMovie.id === movie.id;
+      return swipedMovie.id === movie.id;
     });
-});
+  });
 
   const scoredMovies = filteredMovies.map(movie => {
     return {
@@ -115,69 +116,67 @@ const getRecommendation = () => {
   return scoredMovies;
 };
 
-
 // =========================
-// Přes tlačítko další doporučení
+// DALŠÍ DOPORUČENÝ FILM
 // =========================
 
 nextButton.addEventListener("click", () => {
-
   const scoredMovies = getRecommendation();
 
-
   if (indexRecommendation < scoredMovies.length - 1) {
-        indexRecommendation++;
-        renderMovies();
+    indexRecommendation++;
+    renderMovies();
   }
-
 });
 
 // =========================
-//  ZOBRAZENÍ HISTORIE SWIPŮ
+// ZOBRAZENÍ HISTORIE SWIPŮ
 // =========================
 
 overviewButton.addEventListener("click", () => {
-    overview.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+  overview.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 });
-
-
 
 // =========================
 // RESET APLIKACE
 // =========================
 
 restartButton.addEventListener("click", () => {
-    likedMovies.length = 0;
-    dislikedMovies.length = 0;
+  likedMovies.length = 0;
+  dislikedMovies.length = 0;
 
-    renderSwipeHistory();
-    currentMovieIndex = 0;
-    indexRecommendation = 0;
+  renderSwipeHistory();
 
-    preferences = {
-        genres: {},
-        moods: {}
-    };
+  currentMovieIndex = 0;
+  indexRecommendation = 0;
 
-    swipeMovies.length = 0;
+  preferences = {
+    genres: {},
+    moods: {}
+  };
 
-    const shuffledMovies = [...movies];
-    shuffledMovies.sort(() => 0.5 - Math.random());
+  swipeMovies.length = 0;
 
-    swipeMovies.push(...shuffledMovies.slice(0, 15));
+  const shuffledMovies = [...movies];
+  shuffledMovies.sort(() => 0.5 - Math.random());
 
-    document.querySelector("#recommendation-actions").classList.add("hidden");
-    overview.classList.remove("overview-on");
+  swipeMovies.push(...shuffledMovies.slice(0, 15));
 
-    renderMovies();
+  document
+    .querySelector("#recommendation-actions")
+    .classList.add("hidden");
 
-     window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+  overview.classList.add("hidden");
+
+  renderMovies();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 });
 
 // =========================
@@ -196,18 +195,21 @@ const renderSwipeHistory = () => {
       return `
         <div class="rounded-2xl p-4">
           <div class="flex items-start justify-between gap-4">
+
             <div>
               <h3 class="text-lg font-bold text-white">
                 ${movie.title}
               </h3>
-              <p class="text-sm text-zinc-500 mt-1">
+
+              <p class="mt-1 text-sm text-zinc-500">
                 ${movie.year} · Rating ${movie.rating}
               </p>
             </div>
 
             ${movie.rating >= 8.5
-              ? `<span class="shrink-0 text-xs font-bold px-2.5 py-1 rounded-full bg-[#E50914] text-white">TOP</span>`
+              ? `<span class="shrink-0 rounded-full bg-[#E50914] px-2.5 py-1 text-xs font-bold text-white">TOP</span>`
               : ""}
+
           </div>
         </div>
       `;
@@ -225,18 +227,21 @@ const renderSwipeHistory = () => {
       return `
         <div class="rounded-2xl p-4">
           <div class="flex items-start justify-between gap-4">
+
             <div>
               <h3 class="text-lg font-bold text-white">
                 ${movie.title}
               </h3>
-              <p class="text-sm text-zinc-500 mt-1">
+
+              <p class="mt-1 text-sm text-zinc-500">
                 ${movie.year} · Rating ${movie.rating}
               </p>
             </div>
 
             ${movie.rating >= 8.5
-              ? `<span class="shrink-0 text-xs font-bold px-2.5 py-1 rounded-full bg-[#E50914] text-white">TOP</span>`
+              ? `<span class="shrink-0 rounded-full bg-[#E50914] px-2.5 py-1 text-xs font-bold text-white">TOP</span>`
               : ""}
+
           </div>
         </div>
       `;
@@ -250,14 +255,22 @@ const renderSwipeHistory = () => {
 
 const renderMovies = () => {
 
-  // Po 8 swipech zobrazím doporučení
-  if (currentMovieIndex >= 8 || currentMovieIndex >= swipeMovies.length) {
+  // =========================
+  // DOPORUČENÍ PO 8 SWIPECH
+  // =========================
+
+  if (
+    currentMovieIndex >= 8 ||
+    currentMovieIndex >= swipeMovies.length
+  ) {
     const scoredMovies = getRecommendation();
     const recommendedMovie = scoredMovies[indexRecommendation];
 
-    document.querySelector("#recommendation-actions").classList.remove("hidden");
+    document
+      .querySelector("#recommendation-actions")
+      .classList.remove("hidden");
 
-    overview.classList.add("overview-on");
+    overview.classList.remove("hidden");
     renderSwipeHistory();
 
     if (!recommendedMovie) {
@@ -270,29 +283,32 @@ const renderMovies = () => {
     }
 
     movieContainer.innerHTML = `
-      <div class="text-center">
+      <div class="w-full text-center">
 
-        <p class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-3">
+        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-[#E50914]">
           Dnešní doporučení
         </p>
 
-        <div class="rounded-2xl overflow-hidden">
+        <div class="relative mx-auto aspect-[2/3] w-full max-w-[340px] overflow-hidden rounded-[22px] bg-[#151515] shadow-[0_18px_48px_rgba(0,0,0,0.4)] sm:max-w-[390px]">
+
           <img
             src="${recommendedMovie.image}"
             alt="${recommendedMovie.title}"
-            class="pointer-events-none select-none block w-full h-[min(45dvh,420px)] object-contain"
+            draggable="false"
+            class="pointer-events-none block h-full w-full select-none object-cover"
           >
+
         </div>
 
-        <h2 class="mt-3 text-xl md:text-2xl font-bold leading-tight">
+        <h2 class="mt-5 text-[24px] font-bold leading-tight tracking-tight sm:text-[28px] lg:text-[32px]">
           ${recommendedMovie.title}
         </h2>
 
-        <p class="text-zinc-400 mt-1 text-sm">
+        <p class="mt-2 text-sm text-zinc-400 sm:text-base">
           ${recommendedMovie.year}
         </p>
 
-        <p class="text-zinc-500 mt-2 text-sm">
+        <p class="mt-2 text-sm text-zinc-500">
           Score: ${recommendedMovie.score}
         </p>
 
@@ -309,36 +325,42 @@ const renderMovies = () => {
   const movie = swipeMovies[currentMovieIndex];
 
   movieContainer.innerHTML = `
-    <div class="movie-card relative cursor-grab select-none touch-pan-y">
+    <div class="movie-card relative w-full cursor-grab select-none touch-pan-y text-center">
 
-      <div class="image-wrapper relative overflow-hidden rounded-2xl">
+      <div class="image-wrapper relative mx-auto aspect-[2/3] w-full max-w-[340px] overflow-hidden rounded-[22px] bg-[#151515] shadow-[0_18px_48px_rgba(0,0,0,0.4)] sm:max-w-[390px]">
 
         <img
           src="${movie.image}"
           alt="${movie.title}"
           draggable="false"
-          class="pointer-events-none select-none block w-full h-[min(48dvh,440px)] object-contain"
+          class="pointer-events-none block h-full w-full select-none object-cover"
         >
 
-        <div class="like-overlay pointer-events-none absolute inset-0 bg-green-500/70 opacity-0 flex items-center justify-center">
-          <span class="text-white text-5xl font-black tracking-wider">
+        <!-- LIKE OVERLAY -->
+        <div class="like-overlay pointer-events-none absolute inset-0 flex items-center justify-center bg-green-500/70 opacity-0">
+
+          <span class="text-4xl font-black tracking-wider text-white sm:text-5xl">
             LIKE
           </span>
+
         </div>
 
-        <div class="nope-overlay pointer-events-none absolute inset-0 bg-red-500/70 opacity-0 flex items-center justify-center">
-          <span class="text-white text-5xl font-black tracking-wider">
+        <!-- DISLIKE OVERLAY -->
+        <div class="nope-overlay pointer-events-none absolute inset-0 flex items-center justify-center bg-red-500/70 opacity-0">
+
+          <span class="text-4xl font-black tracking-wider text-white sm:text-5xl">
             NOPE
           </span>
+
         </div>
 
       </div>
 
-      <h2 class="mt-3 text-xl md:text-2xl font-bold leading-tight">
+      <h2 class="mt-5 text-[24px] font-bold leading-tight tracking-tight sm:text-[28px] lg:text-[32px]">
         ${movie.title}
       </h2>
 
-      <p class="text-zinc-400 mt-1 text-sm">
+      <p class="mt-2 text-sm text-zinc-400 sm:text-base">
         ${movie.year}
       </p>
 
@@ -346,6 +368,7 @@ const renderMovies = () => {
   `;
 
   const movieCard = movieContainer.querySelector(".movie-card");
+
   const likeIndicator = movieCard.querySelector(".like-overlay");
   const nopeIndicator = movieCard.querySelector(".nope-overlay");
 
@@ -356,6 +379,10 @@ const renderMovies = () => {
   let horizontalSwipe = false;
   let activePointerId = null;
   let isAnimating = false;
+
+  // =========================
+  // RESET POHYBU KARTY
+  // =========================
 
   const resetCard = () => {
     movieCard.style.transition = "transform 250ms ease-out";
@@ -373,7 +400,10 @@ const renderMovies = () => {
   // =========================
 
   movieCard.addEventListener("pointerdown", event => {
-    if (isAnimating || (event.pointerType === "mouse" && event.button !== 0)) {
+    if (
+      isAnimating ||
+      (event.pointerType === "mouse" && event.button !== 0)
+    ) {
       return;
     }
 
@@ -387,8 +417,9 @@ const renderMovies = () => {
 
     movieCard.style.transition = "none";
 
-    // Pointer capture nastavujeme jen u myši.
-    // Na mobilu necháme prohlížeč ovládat vertikální scroll.
+    // Pointer capture pouze pro myš.
+    // Na mobilu zachováváme vertikální scroll.
+
     if (event.pointerType === "mouse") {
       movieCard.setPointerCapture(event.pointerId);
     }
@@ -399,18 +430,27 @@ const renderMovies = () => {
   // =========================
 
   movieCard.addEventListener("pointermove", event => {
-    if (!isDragging || event.pointerId !== activePointerId) return;
+    if (
+      !isDragging ||
+      event.pointerId !== activePointerId
+    ) {
+      return;
+    }
 
     const moveX = event.clientX - startX;
     const moveY = event.clientY - startY;
 
     if (!horizontalSwipe) {
-      if (Math.abs(moveX) < 10 && Math.abs(moveY) < 10) {
+      if (
+        Math.abs(moveX) < 10 &&
+        Math.abs(moveY) < 10
+      ) {
         return;
       }
 
-      // Pokud uživatel táhne převážně vertikálně,
-      // necháme stránku scrollovat.
+      // Vertikální pohyb ponecháváme
+      // pro scrollování stránky.
+
       if (Math.abs(moveY) > Math.abs(moveX)) {
         return;
       }
@@ -441,14 +481,21 @@ const renderMovies = () => {
   // =========================
 
   movieCard.addEventListener("pointerup", event => {
-    if (!isDragging || event.pointerId !== activePointerId || isAnimating) {
+    if (
+      !isDragging ||
+      event.pointerId !== activePointerId ||
+      isAnimating
+    ) {
       return;
     }
 
     isDragging = false;
     activePointerId = null;
 
-    if (!horizontalSwipe || Math.abs(diffX) <= 70) {
+    if (
+      !horizontalSwipe ||
+      Math.abs(diffX) <= 70
+    ) {
       resetCard();
       return;
     }
@@ -467,6 +514,7 @@ const renderMovies = () => {
     }
 
     movieCard.style.transition = "transform 250ms ease-out";
+
     movieCard.style.transform = liked
       ? "translateX(120vw) rotate(20deg)"
       : "translateX(-120vw) rotate(-20deg)";
@@ -485,6 +533,7 @@ const renderMovies = () => {
     isDragging = false;
     horizontalSwipe = false;
     activePointerId = null;
+
     resetCard();
   });
 };
