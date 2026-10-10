@@ -15,6 +15,7 @@ const movieContainer = document.querySelector(".movies");
 const overviewLiked = document.querySelector(".overview-liked");
 const overviewDisliked = document.querySelector(".overview-disliked");
 const nextButton = document.querySelector("#next-recommendation");
+const recommendationActions = document.querySelector("#recommendation-actions");
 
 let currentMovieIndex = 0;
 let indexRecommendation = 0;
@@ -165,10 +166,7 @@ restartButton.addEventListener("click", () => {
 
   swipeMovies.push(...shuffledMovies.slice(0, 15));
 
-  document
-    .querySelector("#recommendation-actions")
-    .classList.add("hidden");
-
+  recommendationActions.classList.add("hidden");
   overview.classList.add("hidden");
 
   renderMovies();
@@ -186,18 +184,18 @@ restartButton.addEventListener("click", () => {
 const renderSwipeHistory = () => {
   if (likedMovies.length === 0) {
     overviewLiked.innerHTML = `
-      <p class="text-zinc-500 text-sm">
+      <p class="text-sm text-zinc-500">
         Žádné oblíbené filmy
       </p>
     `;
   } else {
     overviewLiked.innerHTML = likedMovies.map(movie => {
       return `
-        <div class="rounded-2xl p-4">
+        <div class="rounded-2xl border border-[#202020] bg-[#171717] p-4">
           <div class="flex items-start justify-between gap-4">
 
-            <div>
-              <h3 class="text-lg font-bold text-white">
+            <div class="min-w-0">
+              <h3 class="break-words text-lg font-bold text-white">
                 ${movie.title}
               </h3>
 
@@ -218,18 +216,18 @@ const renderSwipeHistory = () => {
 
   if (dislikedMovies.length === 0) {
     overviewDisliked.innerHTML = `
-      <p class="text-zinc-500 text-sm">
+      <p class="text-sm text-zinc-500">
         Žádné odmítnuté filmy
       </p>
     `;
   } else {
     overviewDisliked.innerHTML = dislikedMovies.map(movie => {
       return `
-        <div class="rounded-2xl p-4">
+        <div class="rounded-2xl border border-[#202020] bg-[#171717] p-4">
           <div class="flex items-start justify-between gap-4">
 
-            <div>
-              <h3 class="text-lg font-bold text-white">
+            <div class="min-w-0">
+              <h3 class="break-words text-lg font-bold text-white">
                 ${movie.title}
               </h3>
 
@@ -266,11 +264,11 @@ const renderMovies = () => {
     const scoredMovies = getRecommendation();
     const recommendedMovie = scoredMovies[indexRecommendation];
 
-    document
-      .querySelector("#recommendation-actions")
-      .classList.remove("hidden");
+    recommendationActions.classList.remove("hidden");
 
+    // Přehled bude po 8 swipech viditelný.
     overview.classList.remove("hidden");
+
     renderSwipeHistory();
 
     if (!recommendedMovie) {
@@ -289,7 +287,7 @@ const renderMovies = () => {
           Dnešní doporučení
         </p>
 
-        <div class="relative mx-auto aspect-[2/3] w-full max-w-[340px] overflow-hidden rounded-[22px] bg-[#151515] shadow-[0_18px_48px_rgba(0,0,0,0.4)] sm:max-w-[390px]">
+        <div class="relative mx-auto aspect-[2/3] w-full max-w-[340px] overflow-hidden rounded-[22px] bg-[#151515] shadow-[0_20px_65px_rgba(0,0,0,0.65)] sm:max-w-[390px]">
 
           <img
             src="${recommendedMovie.image}"
@@ -327,7 +325,7 @@ const renderMovies = () => {
   movieContainer.innerHTML = `
     <div class="movie-card relative w-full cursor-grab select-none touch-pan-y text-center">
 
-      <div class="image-wrapper relative mx-auto aspect-[2/3] w-full max-w-[340px] overflow-hidden rounded-[22px] bg-[#151515] shadow-[0_18px_48px_rgba(0,0,0,0.4)] sm:max-w-[390px]">
+      <div class="image-wrapper relative mx-auto aspect-[2/3] w-full max-w-[340px] overflow-hidden rounded-[22px] bg-[#151515] shadow-[0_20px_65px_rgba(0,0,0,0.65)] sm:max-w-[390px]">
 
         <img
           src="${movie.image}"
@@ -368,7 +366,6 @@ const renderMovies = () => {
   `;
 
   const movieCard = movieContainer.querySelector(".movie-card");
-
   const likeIndicator = movieCard.querySelector(".like-overlay");
   const nopeIndicator = movieCard.querySelector(".nope-overlay");
 
@@ -448,8 +445,8 @@ const renderMovies = () => {
         return;
       }
 
-      // Vertikální pohyb ponecháváme
-      // pro scrollování stránky.
+      // Pokud uživatel táhne převážně vertikálně,
+      // necháme stránku scrollovat.
 
       if (Math.abs(moveY) > Math.abs(moveX)) {
         return;

@@ -5,48 +5,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta name="theme-color" content="#050505">
   <title>Movie Swipe</title>
 
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
-  <!-- Styles -->
+  <!-- Compiled Tailwind + custom CSS -->
   <link rel="stylesheet" href="./output.css">
-  <link rel="stylesheet" href="./style.css">
 </head>
 
-<body class="min-h-screen overflow-x-hidden bg-[#080808] text-white">
+<body class="min-h-screen overflow-x-clip bg-[#050505] text-white">
 
-  <!-- MAIN -->
-  <main class="flex min-h-dvh items-center justify-center px-4 py-8 sm:px-6 sm:py-12 lg:py-16">
+  <main class="relative isolate flex min-h-dvh items-center justify-center overflow-x-clip px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
 
-    <section class="w-full max-w-[680px]">
+    <!-- Subtle background glow -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute top-[-180px] left-1/2 -z-10 h-[450px] w-[min(800px,100%)] -translate-x-1/2 rounded-full bg-[#E50914]/[0.055] blur-[110px]"
+    ></div>
+
+    <section class="relative w-full max-w-[680px]">
 
       <!-- INTRO -->
-      <div class="mb-7 text-center sm:mb-10">
+      <div class="mb-8 text-center sm:mb-10">
 
-        <p class="text-[11px] leading-relaxed font-semibold uppercase tracking-[0.12em] text-[#E50914] sm:text-xs sm:tracking-[0.18em] md:text-sm">
+        <p class="intro-eyebrow text-[10px] font-semibold uppercase leading-relaxed tracking-[0.13em] text-[#E50914] sm:text-xs sm:tracking-[0.2em] md:text-sm">
           Po swajpnutí 8 filmů ti doporučím, na co se máš podívat
         </p>
 
-        <h1 class="mt-4 text-[28px] leading-[1.12] font-bold tracking-tight sm:text-[38px] lg:text-[48px]">
+        <h1 class="intro-heading mx-auto mt-4 max-w-[650px] text-[29px] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[39px] lg:text-[48px]">
           Swajp doleva je dislike, swajp doprava je like
         </h1>
 
       </div>
 
-      <!-- MOVIE CONTAINER -->
+      <!-- MOVIE -->
       <div class="movies"></div>
 
-      <!-- RECOMMENDATION ACTIONS -->
+      <!-- RECOMMENDATION BUTTONS -->
       <div id="recommendation-actions" class="mt-8 hidden space-y-3">
 
         <button
           id="next-recommendation"
           type="button"
-          class="w-full cursor-pointer rounded-2xl bg-[#E50914] px-5 py-4 text-sm font-bold text-white transition-colors hover:bg-[#b80710] sm:text-base"
+          class="w-full cursor-pointer rounded-2xl bg-[#E50914] px-5 py-4 text-sm font-bold text-white transition-colors duration-200 hover:bg-[#b80710] sm:text-base"
         >
           Další doporučený film →
         </button>
@@ -56,7 +64,7 @@
           <button
             id="restart-swipe"
             type="button"
-            class="cursor-pointer rounded-2xl border border-[#333333] bg-[#151515] px-3 py-4 text-xs font-semibold transition-colors hover:bg-[#242424] sm:text-sm"
+            class="cursor-pointer rounded-2xl border border-[#292929] bg-[#141414] px-3 py-4 text-xs font-semibold transition-colors duration-200 hover:bg-[#222222] sm:text-sm"
           >
             ↻ Začít znovu
           </button>
@@ -64,7 +72,7 @@
           <button
             id="show-overview"
             type="button"
-            class="cursor-pointer rounded-2xl border border-[#333333] bg-[#151515] px-3 py-4 text-xs font-semibold transition-colors hover:bg-[#242424] sm:text-sm"
+            class="cursor-pointer rounded-2xl border border-[#292929] bg-[#141414] px-3 py-4 text-xs font-semibold transition-colors duration-200 hover:bg-[#222222] sm:text-sm"
           >
             Přehled swipů ↓
           </button>
@@ -80,7 +88,7 @@
   <!-- SWIPE OVERVIEW -->
   <section
     id="swipe-overview"
-    class="overview hidden border-t border-[#1f1f1f] bg-[#0d0d0d] py-16 md:py-24"
+    class="overview hidden border-t border-[#1c1c1c] bg-[#090909] py-16 md:py-24"
   >
 
     <div class="mx-auto max-w-5xl px-4 sm:px-6">
@@ -100,7 +108,7 @@
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
 
         <!-- LIKED -->
-        <div class="rounded-[24px] border border-[#242424] bg-[#121212] p-5 sm:p-6 md:rounded-[28px] md:p-7">
+        <div class="rounded-[24px] border border-[#242424] bg-[#111111] p-5 sm:p-6 md:rounded-[28px] md:p-7">
 
           <div class="mb-5 flex items-center justify-between border-b border-[#242424] pb-5">
 
@@ -119,7 +127,7 @@
         </div>
 
         <!-- DISLIKED -->
-        <div class="rounded-[24px] border border-[#242424] bg-[#121212] p-5 sm:p-6 md:rounded-[28px] md:p-7">
+        <div class="rounded-[24px] border border-[#242424] bg-[#111111] p-5 sm:p-6 md:rounded-[28px] md:p-7">
 
           <div class="mb-5 flex items-center justify-between border-b border-[#242424] pb-5">
 
@@ -144,6 +152,5 @@
   </section>
 
   <script src="./script.js"></script>
-
 </body>
 </html>
