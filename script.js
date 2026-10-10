@@ -274,7 +274,7 @@ const renderMovies = () => {
   const movie = swipeMovies[currentMovieIndex];
 
   movieContainer.innerHTML = `
-    <div class="movie-card relative cursor-grab select-none touch-none">
+    <div class="movie-card relative cursor-grab select-none touch-pan-y">
 
       <div class="image-wrapper relative overflow-hidden rounded-2xl">
 
@@ -393,13 +393,13 @@ const renderMovies = () => {
     isDragging = false;
 
     movieCard.style.transition =
-      "transform 300ms ease";
+      "transform 250ms ease-out";
 
     movieCard.style.cursor = "grab";
 
 
     // LIKE
-    if (diffX > 120) {
+    if (diffX > 70) {
 
       likedMovies.push(
         swipeMovies[currentMovieIndex]
@@ -425,7 +425,7 @@ const renderMovies = () => {
 
 
     // DISLIKE
-    } else if (diffX < -120) {
+    } else if (diffX < -70) {
 
       dislikedMovies.push(
         swipeMovies[currentMovieIndex]
@@ -472,7 +472,7 @@ const renderMovies = () => {
     isDragging = false;
 
     movieCard.style.transition =
-      "transform 300ms ease";
+      "transform 250ms ease-out";
 
     movieCard.style.transform =
       "translateX(0) rotate(0deg)";
